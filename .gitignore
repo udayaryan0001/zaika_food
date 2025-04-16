@@ -1,0 +1,18 @@
+# XAMPP files
+.DS_Store
+.env
+config.php
+
+# Uploaded files
+images/gallery/*
+images/menu/*
+!images/gallery/.gitkeep
+!images/menu/.gitkeep
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/ 

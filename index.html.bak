@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaika-e-Handi - Authentic Indian Cuisine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('/zaika2/images/ilovepdf_pages-to-jpg (2)/premium_photo-1661432769134-758550b8fedb.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        .dish-card {
+            transition: all 0.3s ease;
+        }
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #f97316;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .button-hover {
+            transition: all 0.3s ease;
+        }
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(249 115 22 / 0.3);
+        }
+        .gallery-img {
+            transition: all 0.5s ease;
+        }
+        .gallery-img:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm shadow-sm fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-3xl font-bold text-orange-600 hover:text-orange-700 transition-colors">
+                        <span class="text-4xl">🍛</span> Zaika-e-Handi
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-orange-600">Home</a>
+                    <a href="menu.html" class="nav-link text-gray-700 hover:text-orange-600">Menu</a>
+                    <a href="login.html" class="nav-link text-gray-700 hover:text-orange-600">Login</a>
+                    <a href="signup.html" class="bg-orange-600 text-white px-6 py-2 rounded-full hover:bg-orange-700 transform hover:scale-105 transition-all">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section w-full flex items-center justify-center">
+        <div class="text-center text-white px-4 fade-in-up">
+            <h1 class="text-6xl font-bold mb-6" data-aos="fade-down" data-aos-delay="200">Welcome to Zaika-e-Handi</h1>
+            <p class="text-2xl mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="400">Experience the authentic flavors of India in every bite</p>
+            <div class="space-x-4" data-aos="fade-up" data-aos-delay="600">
+                <a href="menu.html" class="button-hover bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 inline-block">
+                    View Menu
+                </a>
+                <a href="signup.html" class="button-hover bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-gray-100 inline-block">
+                    Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Dishes -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our Specialties</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Discover our most popular dishes that will take your taste buds on a journey through India
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Dish 1 -->
+                <div class="dish-card bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/premium_photo-1661432769134-758550b8fedb.jpeg" 
+                         alt="Special Dish 1" 
+                         loading="lazy"
+                         class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-2 text-gray-800">Signature Curries</h3>
+                        <p class="text-gray-600 mb-4">Rich, aromatic curries made with traditional spices and fresh ingredients</p>
+                        <a href="menu.html" class="text-orange-600 hover:text-orange-700 font-medium">
+                            View All Curries →
+                        </a>
+                    </div>
+                </div>
+                <!-- Dish 2 -->
+                <div class="dish-card bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
+                         alt="Special Dish 2" 
+                         loading="lazy"
+                         class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-2 text-gray-800">Tandoori Specials</h3>
+                        <p class="text-gray-600 mb-4">Authentic tandoori dishes cooked in our traditional clay oven</p>
+                        <a href="menu.html" class="text-orange-600 hover:text-orange-700 font-medium">
+                            View Tandoori Menu →
+                        </a>
+                    </div>
+                </div>
+                <!-- Dish 3 -->
+                <div class="dish-card bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
+                         alt="Special Dish 3" 
+                         loading="lazy"
+                         class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold mb-2 text-gray-800">Biryani Collection</h3>
+                        <p class="text-gray-600 mb-4">Fragrant rice dishes with premium meats and aromatic spices</p>
+                        <a href="menu.html" class="text-orange-600 hover:text-orange-700 font-medium">
+                            Explore Biryanis →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6" data-aos="fade-up">
+                    <div class="text-4xl mb-4 text-orange-600 float-animation">🍽️</div>
+                    <h3 class="text-xl font-bold mb-2">Fresh Ingredients</h3>
+                    <p class="text-gray-600">We use only the freshest ingredients sourced from local markets</p>
+                </div>
+                <div class="text-center p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl mb-4 text-orange-600 float-animation">👨‍🍳</div>
+                    <h3 class="text-xl font-bold mb-2">Expert Chefs</h3>
+                    <p class="text-gray-600">Our chefs bring decades of experience in authentic Indian cooking</p>
+                </div>
+                <div class="text-center p-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-4xl mb-4 text-orange-600 float-animation">🚚</div>
+                    <h3 class="text-xl font-bold mb-2">Fast Delivery</h3>
+                    <p class="text-gray-600">Quick and reliable delivery to your doorstep</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="py-20 bg-orange-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Special Offers</h2>
+            <p class="text-gray-600 text-center mb-12" data-aos="fade-up" data-aos-delay="200">Exclusive deals that will delight your taste buds</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all" data-aos="fade-right">
+                    <div class="p-8 flex flex-col h-full">
+                        <div class="flex-1">
+                            <span class="text-orange-600 text-lg font-semibold">Weekend Special</span>
+                            <h3 class="text-2xl font-bold mt-2">Family Feast</h3>
+                            <p class="mt-4 text-gray-600">Get 20% off on family-size portions every weekend. Perfect for gatherings!</p>
+                        </div>
+                        <div class="mt-6">
+                            <a href="menu.html" class="inline-block bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors">
+                                Order Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all" data-aos="fade-left">
+                    <div class="p-8 flex flex-col h-full">
+                        <div class="flex-1">
+                            <span class="text-orange-600 text-lg font-semibold">First Order</span>
+                            <h3 class="text-2xl font-bold mt-2">Welcome Discount</h3>
+                            <p class="mt-4 text-gray-600">New customers get 15% off on their first order. Use code: WELCOME15</p>
+                        </div>
+                        <div class="mt-6">
+                            <a href="signup.html" class="inline-block bg-orange-600 text-white px-6 py-3 rounded-full hover:bg-orange-700 transition-colors">
+                                Sign Up Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">What Our Customers Say</h2>
+            <p class="text-gray-600 text-center mb-12">Don't just take our word for it</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
+                    <div class="text-orange-600 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"The best Indian food I've had outside of India. The flavors are authentic and the service is exceptional!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center">
+                            <span class="text-orange-600 font-bold">JD</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">John Doe</h4>
+                            <p class="text-gray-500 text-sm">Regular Customer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
+                    <div class="text-orange-600 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Their biryani is to die for! And the delivery is always on time. Highly recommended!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center">
+                            <span class="text-orange-600 font-bold">AS</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Alice Smith</h4>
+                            <p class="text-gray-500 text-sm">Food Blogger</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
+                    <div class="text-orange-600 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Perfect for family dinners! The portions are generous and the taste is consistently amazing."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center">
+                            <span class="text-orange-600 font-bold">RK</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Robert King</h4>
+                            <p class="text-gray-500 text-sm">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our Food Gallery</h2>
+            <p class="text-gray-600 text-center mb-12" data-aos="fade-up" data-aos-delay="200">A feast for your eyes</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="0">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/premium_photo-1661432769134-758550b8fedb.jpeg" 
+                         alt="Gallery Image 1" 
+                         class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
+                         alt="Gallery Image 2" 
+                         class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
+                         alt="Gallery Image 3" 
+                         class="gallery-img w-full h-full object-cover">
+                </div>
+                <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="/zaika2/images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
+                         alt="Gallery Image 4" 
+                         class="gallery-img w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-orange-600">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Stay Updated</h2>
+                <p class="text-orange-100 mb-8">Subscribe to our newsletter for exclusive offers and updates</p>
+                <form id="newsletterForm" class="max-w-md mx-auto">
+                    <div class="flex gap-4">
+                        <input type="email" 
+                               id="newsletterEmail"
+                               placeholder="Enter your email" 
+                               class="flex-1 px-6 py-3 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button type="submit" 
+                                class="bg-white text-orange-600 px-8 py-3 rounded-full hover:bg-orange-50 transition-colors">
+                            Subscribe
+                        </button>
+                    </div>
+                    <p id="newsletterMessage" class="mt-4 text-sm text-white hidden"></p>
+                </form>
+                <div class="mt-8 max-w-md mx-auto">
+                    <button onclick="toggleSubscribersList()" 
+                            class="text-white underline text-sm hover:text-orange-200">
+                        Show Subscribers List
+                    </button>
+                    <div id="subscribersList" class="hidden mt-4 bg-white/10 rounded-lg p-4">
+                        <h3 class="text-white font-semibold mb-2">Current Subscribers:</h3>
+                        <ul id="subscribersListItems" class="text-left text-orange-50 text-sm space-y-1">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <span class="text-3xl mr-2">🍛</span> Zaika-e-Handi
+                    </h3>
+                    <p class="text-gray-400">Bringing authentic Indian flavors to your table since 2024.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-orange-600 transition-colors">Home</a></li>
+                        <li><a href="menu.html" class="text-gray-400 hover:text-orange-600 transition-colors">Menu</a></li>
+                        <li><a href="login.html" class="text-gray-400 hover:text-orange-600 transition-colors">Login</a></li>
+                        <li><a href="signup.html" class="text-gray-400 hover:text-orange-600 transition-colors">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            123 Restaurant Street, City
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-2"></i>
+                            (123) 456-7890
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            info@zaikaehandi.com
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Opening Hours</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Monday - Friday: 11:00 AM - 10:00 PM</li>
+                        <li>Saturday - Sunday: 10:00 AM - 11:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <div class="flex justify-center space-x-4 mb-4">
+                    <a href="#" class="text-gray-400 hover:text-orange-600 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-orange-600 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-orange-600 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+                <p class="text-gray-400">&copy; 2024 Zaika-e-Handi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add AOS initialization script before closing body tag -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+    <script>
+    function toggleSubscribersList() {
+        const list = document.getElementById('subscribersList');
+        const isHidden = list.classList.contains('hidden');
+        
+        if (isHidden) {
+            fetchSubscribers();
+            list.classList.remove('hidden');
+        } else {
+            list.classList.add('hidden');
+        }
+    }
+
+    function fetchSubscribers() {
+        const baseUrl = window.location.protocol + '//' + window.location.host;
+        const subscribersUrl = baseUrl + '/zaika2/php/get_subscribers.php';
+
+        fetch(subscribersUrl)
+            .then(response => response.json())
+            .then(data => {
+                const listElement = document.getElementById('subscribersListItems');
+                
+                if (!data.subscribers || data.subscribers.length === 0) {
+                    listElement.innerHTML = '<li class="text-center">No subscribers yet</li>';
+                    return;
+                }
+                
+                listElement.innerHTML = data.subscribers
+                    .map(email => `<li>📧 ${email}</li>`)
+                    .join('');
+            })
+            .catch(error => {
+                console.error('Error fetching subscribers:', error);
+            });
+    }
+
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('newsletterEmail').value;
+        const messageElement = document.getElementById('newsletterMessage');
+        
+        // Basic email validation
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            messageElement.textContent = 'Please enter a valid email address';
+            messageElement.classList.remove('hidden', 'text-green-200');
+            messageElement.classList.add('text-yellow-200');
+            return;
+        }
+
+        // Get the base URL dynamically
+        const baseUrl = window.location.protocol + '//' + window.location.host;
+        const subscribeUrl = baseUrl + '/zaika2/php/subscribe.php';
+
+        // Send subscription request to PHP backend
+        fetch(subscribeUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            messageElement.textContent = data.message;
+            messageElement.classList.remove('hidden');
+            
+            if (data.success) {
+                messageElement.classList.remove('text-yellow-200');
+                messageElement.classList.add('text-green-200');
+                document.getElementById('newsletterEmail').value = ''; // Clear the input
+                
+                // Update the subscribers list if it's visible
+                if (!document.getElementById('subscribersList').classList.contains('hidden')) {
+                    fetchSubscribers();
+                }
+            } else {
+                messageElement.classList.remove('text-green-200');
+                messageElement.classList.add('text-yellow-200');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            messageElement.textContent = 'An error occurred. Please try again later.';
+            messageElement.classList.remove('hidden', 'text-green-200');
+            messageElement.classList.add('text-yellow-200');
+        });
+    });
+    </script>
+</body>
+</html> 
