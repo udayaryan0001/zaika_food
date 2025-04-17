@@ -93,8 +93,10 @@ session_start();
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="index.php" class="nav-link text-gray-700 hover:text-orange-600">Home</a>
-                <a href="menu.php" class="nav-link text-gray-700 hover:text-orange-600">Menu</a>
+                <a href="index.php" class="text-orange-600 font-semibold">Home</a>
+                <a href="menu.php" class="text-gray-600 hover:text-gray-900">Menu</a>
+                <a href="gallery.php" class="text-gray-600 hover:text-gray-900">Gallery</a>
+                <a href="login.php" class="text-gray-600 hover:text-gray-900">Login</a>
                 <?php if (isLoggedIn()): ?>
                     <div class="relative group">
                         <button class="nav-link text-gray-700 hover:text-orange-600 flex items-center">
@@ -145,6 +147,7 @@ session_start();
                 <div class="mobile-menu hidden absolute top-20 left-0 w-full bg-white border-t border-gray-100">
                     <a href="index.php" class="block py-3 px-4 text-gray-700 hover:bg-orange-50 hover:text-orange-600">Home</a>
                     <a href="menu.php" class="block py-3 px-4 text-gray-700 hover:bg-orange-50 hover:text-orange-600">Menu</a>
+                    <a href="gallery.php" class="block py-3 px-4 text-gray-700 hover:bg-orange-50 hover:text-orange-600">Gallery</a>
                     <?php if (isLoggedIn()): ?>
                         <?php if (isAdmin()): ?>
                             <a href="dashboard.php" class="block py-3 px-4 text-gray-700 hover:bg-orange-50 hover:text-orange-600">
@@ -198,29 +201,29 @@ session_start();
         <h2 class="text-4xl font-bold text-center mb-12">Featured Dishes</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Featured Dish 1 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="images/ilovepdf_pages-to-jpg (2)/zaikabg.jpg" alt="Biryani" class="w-full h-64 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Special Biryani</h3>
-                    <p class="text-gray-600 mb-4">Aromatic basmati rice cooked with tender meat and special spices</p>
-                    <p class="text-orange-600 font-bold">₹299</p>
-                </div>
-            </div>
-            <!-- Featured Dish 2 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="images/ilovepdf_pages-to-jpg (2)/f99886a97ba4e7b0aa4d8b33e00b060c.jpg" alt="Butter Chicken" class="w-full h-64 object-cover">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <img src="" alt="Butter Chicken" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2">Butter Chicken</h3>
-                    <p class="text-gray-600 mb-4">Creamy tomato curry with tender chicken pieces</p>
+                    <p class="text-gray-600 mb-4">Tender chicken pieces in rich, creamy tomato gravy with aromatic spices</p>
                     <p class="text-orange-600 font-bold">₹349</p>
                 </div>
             </div>
+            <!-- Featured Dish 2 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <img src="images/ilovepdf_pages-to-jpg (2)/f99886a97ba4e7b0aa4d8b33e00b060c.jpg" alt="Special Biryani" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Special Biryani</h3>
+                    <p class="text-gray-600 mb-4">Fragrant basmati rice cooked with tender chicken and signature spices</p>
+                    <p class="text-orange-600 font-bold">₹299</p>
+                </div>
+            </div>
             <!-- Featured Dish 3 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
                 <img src="images/ilovepdf_pages-to-jpg (2)/zaikabg.jpg" alt="Paneer Tikka" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-2">Paneer Tikka</h3>
-                    <p class="text-gray-600 mb-4">Grilled cottage cheese with aromatic spices</p>
+                    <p class="text-gray-600 mb-4">Marinated and grilled cottage cheese with colorful bell peppers</p>
                     <p class="text-orange-600 font-bold">₹249</p>
                 </div>
             </div>
@@ -283,32 +286,46 @@ session_start();
     </div>
 </section>
 
-<!-- Gallery Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our Food Gallery</h2>
-        <p class="text-gray-600 text-center mb-12" data-aos="fade-up" data-aos-delay="200">A feast for your eyes</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="0">
-                <img src="images/ilovepdf_pages-to-jpg (2)/premium_photo-1661432769134-758550b8fedb.jpeg" 
-                     alt="Gallery Image 1" 
-                     class="gallery-img w-full h-full object-cover">
+<!-- Gallery Preview Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-2">Our Food Gallery</h2>
+        <p class="text-gray-600 text-center mb-12">Take a visual journey through our culinary masterpieces</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Gallery Preview Items -->
+            <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0001.jpg" 
+                     alt="Gallery Preview 1" 
+                     class="w-full h-72 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-white text-lg font-semibold">Signature Dishes</span>
+                </div>
             </div>
-            <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="200">
+            
+            <div class="relative overflow-hidden rounded-lg shadow-lg group">
                 <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                     alt="Gallery Image 2" 
-                     class="gallery-img w-full h-full object-cover">
+                     alt="Gallery Preview 2" 
+                     class="w-full h-72 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-white text-lg font-semibold">Special Menu</span>
+                </div>
             </div>
-            <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="400">
+            
+            <div class="relative overflow-hidden rounded-lg shadow-lg group">
                 <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                     alt="Gallery Image 3" 
-                     class="gallery-img w-full h-full object-cover">
+                     alt="Gallery Preview 3" 
+                     class="w-full h-72 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-white text-lg font-semibold">Chef's Specials</span>
+                </div>
             </div>
-            <div class="relative overflow-hidden rounded-xl aspect-square" data-aos="zoom-in" data-aos-delay="600">
-                <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                     alt="Gallery Image 4" 
-                     class="gallery-img w-full h-full object-cover">
-            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="gallery.php" class="inline-block bg-orange-600 text-white px-8 py-3 rounded-full hover:bg-orange-700 transition-colors duration-300">
+                View Full Gallery
+            </a>
         </div>
     </div>
 </section>

@@ -1,3 +1,49 @@
+<?php
+require_once 'config.php';
+
+// Handle add to cart action
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $item_id = $_POST['item_id'];
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+    
+    addToCart($item_id, $name, $price, $quantity);
+    
+    // Redirect to prevent form resubmission
+    header('Location: menu.php?added=1');
+    exit;
+}
+
+// Sample menu items (in a real application, these would come from a database)
+$menu_items = [
+    [
+        'id' => 1,
+        'name' => 'Butter Chicken',
+        'description' => 'Tender chicken pieces in rich, creamy tomato gravy',
+        'price' => 349.00,
+        'category' => 'Main Course',
+        'image' => 'images/butter-chicken.jpg'
+    ],
+    [
+        'id' => 2,
+        'name' => 'Paneer Tikka',
+        'description' => 'Marinated and grilled cottage cheese with vegetables',
+        'price' => 299.00,
+        'category' => 'Starters',
+        'image' => 'images/paneer-tikka.jpg'
+    ],
+    [
+        'id' => 3,
+        'name' => 'Special Biryani',
+        'description' => 'Fragrant basmati rice cooked with tender meat and spices',
+        'price' => 399.00,
+        'category' => 'Main Course',
+        'image' => 'images/biryani.jpg'
+    ],
+    // Add more menu items as needed
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,418 +66,63 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center">
-                    <a href="index.html" class="text-3xl font-bold text-orange-600">
-                        <span class="text-4xl">🍛</span> Zaika-e-Handi
-                    </a>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-orange-600">Home</a>
-                    <a href="#starters" class="text-gray-700 hover:text-orange-600">Starters</a>
-                    <a href="#main-course" class="text-gray-700 hover:text-orange-600">Main Course</a>
-                    <a href="#biryani" class="text-gray-700 hover:text-orange-600">Biryani</a>
-                    <button onclick="toggleCart()" class="relative">
-                        <i class="fas fa-shopping-cart text-2xl text-orange-600"></i>
-                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
-                    </button>
-                </div>
+    <?php include 'includes/header.php'; ?>
+
+    <!-- Success Message -->
+    <?php if (isset($_GET['added'])): ?>
+        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50" 
+             id="success-message">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span>Item added to cart successfully!</span>
             </div>
         </div>
-    </nav>
+        <script>
+            setTimeout(() => {
+                document.getElementById('success-message').style.display = 'none';
+            }, 3000);
+        </script>
+    <?php endif; ?>
 
-    <!-- Menu Header -->
-    <div class="pt-32 pb-10 bg-orange-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h1 class="text-5xl font-bold text-center mb-4" data-aos="fade-up">Our Menu</h1>
-            <p class="text-gray-600 text-center max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-                Discover our authentic Indian dishes made with love and tradition
-            </p>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Our Menu</h1>
+            <a href="cart.php" class="inline-flex items-center bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+                <i class="fas fa-shopping-cart mr-2"></i>
+                Cart (<?= getCartItemCount() ?>)
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <?php foreach ($menu_items as $item): ?>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="<?= htmlspecialchars($item['image']) ?>" 
+                         alt="<?= htmlspecialchars($item['name']) ?>" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($item['name']) ?></h3>
+                        <p class="text-gray-600 mb-4"><?= htmlspecialchars($item['description']) ?></p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-orange-600">₹<?= number_format($item['price'], 2) ?></span>
+                            <form method="POST" class="flex items-center space-x-2">
+                                <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+                                <input type="hidden" name="name" value="<?= htmlspecialchars($item['name']) ?>">
+                                <input type="hidden" name="price" value="<?= $item['price'] ?>">
+                                <input type="number" name="quantity" value="1" min="1" max="99"
+                                       class="w-16 px-2 py-1 border rounded-lg">
+                                <button type="submit" name="add_to_cart" 
+                                        class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+                                    Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
-    <!-- Menu Categories -->
-    <div class="sticky top-20 z-40 bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-center space-x-4 py-4">
-                <a href="#starters" class="px-6 py-2 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200">Starters</a>
-                <a href="#main-course" class="px-6 py-2 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200">Main Course</a>
-                <a href="#biryani" class="px-6 py-2 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200">Biryani</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Menu Sections -->
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <!-- Starters Section -->
-        <section id="starters" class="menu-section mb-16" data-aos="fade-up">
-            <h2 class="text-3xl font-bold mb-8">Starters</h2>
-            <div class="flex overflow-x-auto gap-6 pb-4">
-                <!-- Starter Items -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Paneer Tikka" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Paneer Tikka</h3>
-                        <p class="text-gray-600 mb-4">Marinated cottage cheese grilled to perfection</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹249</span>
-                            <button onclick="addToCart('Paneer Tikka', 249)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Chicken Tikka" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Chicken Tikka</h3>
-                        <p class="text-gray-600 mb-4">Tender chicken pieces marinated and grilled</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹299</span>
-                            <button onclick="addToCart('Chicken Tikka', 299)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Fish Tikka" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Fish Tikka</h3>
-                        <p class="text-gray-600 mb-4">Fresh fish marinated in spices and grilled</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹349</span>
-                            <button onclick="addToCart('Fish Tikka', 349)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Seekh Kebab" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Seekh Kebab</h3>
-                        <p class="text-gray-600 mb-4">Minced meat skewers with herbs and spices</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹329</span>
-                            <button onclick="addToCart('Seekh Kebab', 329)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Tandoori Mushroom" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Tandoori Mushroom</h3>
-                        <p class="text-gray-600 mb-4">Grilled mushrooms with Indian spices</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹279</span>
-                            <button onclick="addToCart('Tandoori Mushroom', 279)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Additional Starters -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Hara Bhara Kebab" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Hara Bhara Kebab</h3>
-                        <p class="text-gray-600 mb-4">Vegetable patties with spinach and herbs</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹229</span>
-                            <button onclick="addToCart('Hara Bhara Kebab', 229)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0002.jpg" 
-                         alt="Malai Tikka" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Malai Tikka</h3>
-                        <p class="text-gray-600 mb-4">Creamy marinated chicken tikka</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹319</span>
-                            <button onclick="addToCart('Malai Tikka', 319)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more starter items here -->
-            </div>
-        </section>
-
-        <!-- Main Course Section -->
-        <section id="main-course" class="menu-section mb-16" data-aos="fade-up">
-            <h2 class="text-3xl font-bold mb-8">Main Course</h2>
-            <div class="flex overflow-x-auto gap-6 pb-4">
-                <!-- Main Course Items -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Butter Chicken" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Butter Chicken</h3>
-                        <p class="text-gray-600 mb-4">Tender chicken in rich tomato gravy</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹349</span>
-                            <button onclick="addToCart('Butter Chicken', 349)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Paneer Butter Masala" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Paneer Butter Masala</h3>
-                        <p class="text-gray-600 mb-4">Cottage cheese in creamy tomato gravy</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹299</span>
-                            <button onclick="addToCart('Paneer Butter Masala', 299)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Dal Makhani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Dal Makhani</h3>
-                        <p class="text-gray-600 mb-4">Creamy black lentils cooked overnight</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹249</span>
-                            <button onclick="addToCart('Dal Makhani', 249)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Chicken Curry" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Chicken Curry</h3>
-                        <p class="text-gray-600 mb-4">Traditional Indian chicken curry</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹329</span>
-                            <button onclick="addToCart('Chicken Curry', 329)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Palak Paneer" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Palak Paneer</h3>
-                        <p class="text-gray-600 mb-4">Cottage cheese in spinach gravy</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹289</span>
-                            <button onclick="addToCart('Palak Paneer', 289)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Additional Main Course -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Kadai Chicken" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Kadai Chicken</h3>
-                        <p class="text-gray-600 mb-4">Spicy chicken with bell peppers</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹339</span>
-                            <button onclick="addToCart('Kadai Chicken', 339)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0003.jpg" 
-                         alt="Malai Kofta" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Malai Kofta</h3>
-                        <p class="text-gray-600 mb-4">Cheese dumplings in rich gravy</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹299</span>
-                            <button onclick="addToCart('Malai Kofta', 299)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more main course items here -->
-            </div>
-        </section>
-
-        <!-- Biryani Section -->
-        <section id="biryani" class="menu-section" data-aos="fade-up">
-            <h2 class="text-3xl font-bold mb-8">Biryani</h2>
-            <div class="flex overflow-x-auto gap-6 pb-4">
-                <!-- Biryani Items -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Hyderabadi Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Hyderabadi Biryani</h3>
-                        <p class="text-gray-600 mb-4">Aromatic rice with tender meat and spices</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹399</span>
-                            <button onclick="addToCart('Hyderabadi Biryani', 399)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Chicken Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Chicken Biryani</h3>
-                        <p class="text-gray-600 mb-4">Classic chicken biryani with long grain rice</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹349</span>
-                            <button onclick="addToCart('Chicken Biryani', 349)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Veg Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Veg Biryani</h3>
-                        <p class="text-gray-600 mb-4">Mixed vegetables cooked with aromatic rice</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹299</span>
-                            <button onclick="addToCart('Veg Biryani', 299)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Mutton Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Mutton Biryani</h3>
-                        <p class="text-gray-600 mb-4">Tender mutton pieces with fragrant rice</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹449</span>
-                            <button onclick="addToCart('Mutton Biryani', 449)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Egg Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Egg Biryani</h3>
-                        <p class="text-gray-600 mb-4">Flavorful rice with boiled eggs</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹279</span>
-                            <button onclick="addToCart('Egg Biryani', 279)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Additional Biryani -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Prawn Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Prawn Biryani</h3>
-                        <p class="text-gray-600 mb-4">Seafood biryani with aromatic rice</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹469</span>
-                            <button onclick="addToCart('Prawn Biryani', 469)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden min-w-[300px]">
-                    <img src="images/ilovepdf_pages-to-jpg (2)/zaika - e- handi restaurant menu_page-0004.jpg" 
-                         alt="Mushroom Biryani" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Mushroom Biryani</h3>
-                        <p class="text-gray-600 mb-4">Fragrant rice with mushrooms</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-orange-600">₹289</span>
-                            <button onclick="addToCart('Mushroom Biryani', 289)" 
-                                    class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more biryani items here -->
-            </div>
-        </section>
-    </div>
+    <?php include 'includes/footer.php'; ?>
 
     <!-- Shopping Cart Sidebar -->
     <div id="cart-sidebar" class="fixed top-0 right-0 w-96 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
